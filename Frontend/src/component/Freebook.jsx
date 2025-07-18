@@ -1,18 +1,21 @@
 import React from 'react'
-import list from "../../public/list.js"
+
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import Slider from "react-slick";
 import Cards from './Cards';
+import axios from "axios"
+import { useState } from 'react';
+import { useEffect } from 'react';
 function Freebook() {
-    const Filterdata = list.filter((data) => data.category === "Free");
-    var settings = {
+
+    const settings = {
         dots: true,
         infinite: false,
         speed: 500,
         slidesToShow: 3,
         slidesToScroll: 3,
-        initialSlide: 0,
+        accessibility: false,
         responsive: [
             {
                 breakpoint: 1024,
@@ -41,6 +44,23 @@ function Freebook() {
         ]
     };
 
+    const [freebook, setfreebook] = useState([])
+    useEffect(() => {
+        const getFree = async () => {
+            try {
+                const free = await axios.get("http://localhost:3000/book")
+                setfreebook(free.data)
+            } catch (error) {
+                console.log("error", error)
+            }
+        }
+        getFree()
+
+    }, [])
+
+    const FilterData = freebook.filter((data) => data.category === "Free")
+    // console.log(FilterData)
+
     return (<>
         <div className=' max-w-screen-2xl container mx-auto px-4 '>
             <div>
@@ -49,13 +69,15 @@ function Freebook() {
 
             </div>
             <div>
-                <Slider {...settings}>
-                    {Filterdata.map((item) => (
-                        <div key={item.id} className="px-2"> {/* Each card is now a separate slide */}
-                            <Cards item={item} />
-                        </div>
-                    ))}
-                </Slider>
+                {FilterData.length > 0 && (
+                    <Slider {...settings}>
+                        {FilterData.map((item) => (
+                            <div key={item._id || item.id} className="px-2">
+                                <Cards item={item} />
+                            </div>
+                        ))}
+                    </Slider>
+                )}
 
             </div>
 

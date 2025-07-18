@@ -14,7 +14,7 @@ function Contact() {
         <div className="min-h-screen flex items-center justify-center bg-gray-100">
             <div className="bg-white text-black p-5 rounded-2xl shadow-lg w-11/12 max-w-md">
                 <div className="flex ">
-                    <h3 className="text-2xl font-bold mb-4">Signup</h3>
+                    <h3 className="text-2xl font-bold mb-4">Contact Us </h3>
                     <Link to={"/"}>
                         <button className="btn mt-2 flex mb-9 mx-70 font-semibold text-black  rounded-2xl  ">
                             ✕

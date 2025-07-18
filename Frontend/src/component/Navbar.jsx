@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from "react-router-dom";
 import Login from "./Login"
+import { useAuth } from '../context/AuthProvider.jsx';
+import Logout from './Logout.jsx';
 function Navbar() {
     const [sticky, setSticky] = useState(false);
 
@@ -13,6 +15,12 @@ function Navbar() {
         return () => window.removeEventListener("scroll", handleScroll);
     }, []);
 
+    const { authUser, setAuthUser } = useAuth()
+    console.log(authUser)
+
+    useEffect(() => {
+        console.log("AuthContext Loaded:", authUser);
+    }, [authUser]);
 
 
     return (
@@ -42,11 +50,14 @@ function Navbar() {
                         className="px-8 py-1.5 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-400"
                     />
 
-                    <button className="bg-blue-600 text-white md:px-5 px-2.5 py-2 rounded-lg cursor-pointer hover:bg-blue-700 transition "
-                        onClick={() => document.getElementById("my_modal_1").showModal()}
-                    >
-                        Login
-                    </button>
+
+                    {
+                        authUser ? <Logout /> : <button className="bg-blue-600 text-white md:px-5 px-2.5 py-2 rounded-lg cursor-pointer hover:bg-blue-700 transition "
+                            onClick={() => document.getElementById("my_modal_1").showModal()}
+                        >
+                            Login
+                        </button>
+                    }
                     <Login />
                 </div>
             </div>
